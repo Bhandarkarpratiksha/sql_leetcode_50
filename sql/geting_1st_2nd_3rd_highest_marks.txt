@@ -1,0 +1,8 @@
+
+How do I find the first, second, and third largest marks obtained for a particular subject in mysql?
+
+SELECT marks
+FROM students
+WHERE subject = 'Math'  -- replace 'your_subject' with the actual subject name
+ORDER BY marks DESC
+LIMIT 3;
