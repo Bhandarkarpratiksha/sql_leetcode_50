@@ -7,8 +7,7 @@ function getConsecutiveVowelsCount($string){
     global $vowels;
     global $count;
     for($i = 0; $i < strlen($string)-1; $i++){
-        if(strpos($vowels, $string[$i]) !== false && 
-        strpos($vowels, $string[$i+1]) !== false){
+        if(strpos($vowels, $string[$i]) !== false && strpos($vowels, $string[$i+1]) !== false){
             $count++;
         }
     }
