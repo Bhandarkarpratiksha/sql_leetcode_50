@@ -68,3 +68,28 @@ $uniqueValues = array_keys(array_filter($valueCounts, function($count) {
 }));
 
 print_r($uniqueValues);
+
+// ===========================
+
+function removeDuplicates2(&$nums) {
+    $n = count($nums);
+    if ($n == 0) return 0;
+    
+    $index = 1;
+    for ($i = 1; $i < $n; $i++) {
+        if ($nums[$i] != $nums[$i - 1]) {
+            $nums[$index] = $nums[$i];
+            $index++;
+        }
+    }
+    
+    return $index;
+}
+
+// Example usage
+$nums = [1, 1, 2, 2, 3, 4, 4, 5];
+$newLength = removeDuplicates2($nums);
+
+// Output the unique elements
+echo "New Length: " . $newLength . "\n";
+echo "Modified Array: " . implode(", ", array_slice($nums, 0, $newLength)) . "\n";
