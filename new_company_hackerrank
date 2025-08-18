@@ -1,0 +1,41 @@
+New Company Problem
+
+select c.company_code as c_code, c.founder as c_founder,
+count(distinct lm.lead_manager_code) as total_lead_managers,
+count(distinct sm.senior_manager_code) as total_senior_managers,
+count(distinct m.manager_code) as total_managers, 
+count(distinct e.employee_code)
+from Company c
+left join Lead_Manager lm on c.company_code = lm.company_code
+left join Senior_Manager sm on lm.lead_manager_code = sm.lead_manager_code
+left join Manager m on sm.senior_manager_code = m.senior_manager_code
+left join Employee e on m.manager_code = e.manager_code
+group by c_code, c_founder
+order by c_code
+
+--------------------------
+SELECT 
+    c.company_code AS c_code,
+    c.founder AS c_founder,
+    COALESCE(l.total_lead_managers, 0) AS total_lead_managers,
+    COALESCE(sm.total_senior_managers, 0) AS total_senior_managers,
+    COALESCE(m.total_managers, 0) AS total_managers,
+    COALESCE(e.total_employees, 0) AS total_employees
+FROM Company c
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT lead_manager_code) AS total_lead_managers
+    FROM Lead_Manager GROUP BY company_code
+) l ON c.company_code = l.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT senior_manager_code) AS total_senior_managers
+    FROM Senior_Manager GROUP BY company_code
+) sm ON c.company_code = sm.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT manager_code) AS total_managers
+    FROM Manager GROUP BY company_code
+) m ON c.company_code = m.company_code
+LEFT JOIN (
+    SELECT company_code, COUNT(DISTINCT employee_code) AS total_employees
+    FROM Employee GROUP BY company_code
+) e ON c.company_code = e.company_code
+ORDER BY c.company_code;
