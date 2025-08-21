@@ -1,0 +1,27 @@
+Hacker rank link -> https://www.hackerrank.com/challenges/symmetric-pairs/problem?isFullScreen=true
+
+select f1.x, f1.y from Functions f1, Functions f2
+where f1.x = f2.y and f1.y = f2.x
+and f1.x <= f1.y
+group by f1.x, f1.y
+having count(*) > 1 or f1.x <> f1.y
+order by f1.x
+
+//sloution 2
+-- Case 1: Symmetric pairs where x <> y
+SELECT f1.x, f1.y
+FROM functions f1
+JOIN functions f2
+  ON f1.x = f2.y AND f1.y = f2.x
+WHERE f1.x < f1.y
+
+UNION
+
+-- Case 2: Self-pairs (x = y) that appear more than once
+SELECT f1.x, f1.y
+FROM functions f1
+WHERE f1.x = f1.y
+GROUP BY f1.x, f1.y
+HAVING COUNT(*) > 1
+
+ORDER BY x, y;
